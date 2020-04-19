@@ -1,12 +1,88 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		{% block stylesheets %}
+			<style>
+				* {
+					margin: 0;
+					padding: 0;
+					box-sizing: border-box;
+				}
+
+                .logo img{
+                    width: 35px;
+                    height: auto;
+                }
+
+				nav {
+					width: 100vw;
+					height: auto;
+                    display: flex;
+                    justify-content : space-around;
+				}
+
+				nav ul {
+					display: flex;
+					list-style: none;
+				}
+				nav ul li {
+					text-decoration: none;
+					margin: 0 3vw;
+					line-height: 8vh;
+				}
+
+				nav ul li a {
+					color: #0A2472;
+					text-transform: uppercase;
+					font-weight: 700;
+				}
+
+				.card {
+					width: 200px;
+				}
+				.card img {
+					width: 100%;
+				}
+			</style>
+		{% endblock %}
+	</head>
+	<body>
+		<nav>
+			<ul>
+                <li class="logo">
+                    <img src="{{ asset('uploads/ldlc.png') }}">
+                </li>
+				<li><a href="{{ path('produit_index') }}">Nos Produits</a></li>
+				<li><a href="{{ path('panier') }}">Mon panier</a></li>
+			</ul>
+            <ul>
+				<li><a href="{{ path('app_register') }}">Inscription</a></li>
+				<li>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    {% else %}
+                         <a href="{{ path('app_login') }}">Se connecter</a>
+                    {% endif %}
+                </li>
+			</ul>
+		</nav>
+		<div class="container">
+
+			{% for type,messages in app.flashes %}
+				{% for message in messages %}
+					<p class="alert alert-{{type}}">{{message}}
+					</p>
+				{% endfor %}
+			{% endfor %}
+
+			{% block body %}{% endblock %}
+		</div>
+		{% block javascripts %}{% endblock %}
+	</body>
 </html>

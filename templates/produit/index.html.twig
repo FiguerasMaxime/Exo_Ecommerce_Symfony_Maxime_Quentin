@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index
+{% endblock %}
+
+
+{% block body %}
+	{% if is_granted('ROLE_USER') %}
+		{{dump(app.user)}}
+	{% endif %}
+	<h1>Produit index</h1>
+
+	<table border="1" class="table table-striped table-inverse">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nom</th>
+				<th>Description</th>
+				<th>Prix</th>
+				<th>Stock</th>
+				<th>Photo</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for produit in produits %}
+				<tr>
+					<td>{{ produit.id }}</td>
+					<td>{{ produit.nom }}</td>
+					<td>{{ produit.description }}</td>
+					<td>{{ produit.prix }}</td>
+					<td>{{ produit.stock }}</td>
+					<td>
+						<div class="card">
+							<img src="{{ asset('uploads/'~produit.photo) }}">
+						</div>
+					</td>
+					<td>
+						<a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">Aucun produit, pour l'instant pute tu vas payer :)</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('produit_new') }}">Create new</a>
+	{% endif %}
+{% endblock %}
