@@ -80,20 +80,21 @@ class ProduitController extends AbstractController
     {
         if($produit != null){
 
-            $panier = new Panier($user);
+            $pdo = $this->getDoctrine()->getManager();
+            $produitClass = $pdo->getRepository(Produit::class)->findByid($produit);
+
             $contenuPanier = new ContenuPanier($produit);
+            $contenuPanier -> setProduit($produitClass);
+
+            $panier = new Panier($user);
+            $panier -> addUtilisateur($user);
+            $panier -> setContenuPanier($contenuPanier);
 
             $form = $this->createForm(ContenuPanierType::class, $contenuPanier);
             $form->handleRequest($request);
 
-            $produitID = intval($produit->getId());
-            $contenuID = intval(uniqid());
-
-            $contenuPanier -> setProduit($produitID);
-            $panier -> setContenuPanier($contenuPanier);
-            $panier -> addUtilisateur($user);
+            // formulaire envoyer
             if($form->isSubmitted() && $form->isValid()){
-                $pdo = $this->getDoctrine()->getManager();
                 $pdo->persist($panier);
                 $pdo->persist($contenuPanier);
     

@@ -58,7 +58,7 @@ class ContenuPanier
         return $this->produit;
     }
 
-    public function setProduit( $produit) {
+    public function setProduit($produit) {
         $this->produit = $produit;
 
         return $this;
