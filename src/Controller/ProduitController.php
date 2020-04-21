@@ -105,7 +105,8 @@ class ProduitController extends AbstractController
             }
             return $this -> render('produit/show.html.twig', [
                 'produit' => $produit,
-                'formContenuPanier' => $form->createView()
+                'formContenuPanier' => $form->createView(),
+                'user' => $user->getId(),
             ]);
         }
         else{
