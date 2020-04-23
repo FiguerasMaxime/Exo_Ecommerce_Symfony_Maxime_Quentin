@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	{{dump(user)}}
+	{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+		{{dump(user)}}
+	{% endif %}
 	<h1>Produit</h1>
 
 	<table class="table">
@@ -39,7 +41,7 @@
 	</table>
 	
 	{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
-		<a href="{{ path('panier') }}">Ajouter au panier</a>
+		<a href="{{ path('panier', {'id': panier.id}) }}">Ajouter au panier</a>
 	{% endif %}
 
     {{form(formContenuPanier)}} 

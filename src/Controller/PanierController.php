@@ -4,21 +4,38 @@ namespace App\Controller;
 
 use App\Entity\Panier;
 use App\Entity\User;
+use App\Repository\PanierRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PanierController extends AbstractController
 {
     /**
-     * @Route("/panier", name="panier")
+     * @Route("/panier/", name="panier")
      */
-    public function index(User $user)
+    public function index(PanierRepository $panierRepository): Response
     {
-        // $panier = $user-> getPanier();
         return $this->render('panier/index.html.twig', [
-            // 'panier' => $panier,
-            'user' => $user
+            'panier' => $panierRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/panier/{id}", name="panier_user")
+     */
+    public function panierUser(Panier $panier, User $user)
+    {
+
+        if($user != null) {
+
+            return $this->render('panier/index.html.twig', [
+                'panier' => $panier,
+            ]);
+        }
+        else {
+            return $this -> redirectToRoute('app_login');
+        }
     }
     
 }

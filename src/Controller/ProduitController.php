@@ -101,12 +101,13 @@ class ProduitController extends AbstractController
                 $pdo->flush();
 
                 $this->addFlash("success", "Produit ajouté au panier");
-                return $this -> redirectToRoute('panier');
+                return $this -> redirectToRoute('panier_user');
             }
             return $this -> render('produit/show.html.twig', [
                 'produit' => $produit,
                 'formContenuPanier' => $form->createView(),
                 'user' => $user->getId(),
+                'panier' => $panier
             ]);
         }
         else{
