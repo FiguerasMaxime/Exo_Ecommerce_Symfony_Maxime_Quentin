@@ -4,11 +4,12 @@
 {% endblock %}
 
 {% block body %}
-
+	{% if is_granted('ROLE_USER') %}
+		{{dump(app.user.panier)}}
+	{% endif %}
     {{dump(panier)}}
     
-{# {{dump(panier)}} #}
-	{# {% if panier is not empty%}
+	{% if panier is not empty%}
 		<table border="1" class="table table-striped table-inverse">
 			<thead>
 				<tr>
@@ -19,13 +20,12 @@
 			<tbody>
 				{% for contenupanier in panier %}
 					<tr>
-						<td>{{panier.contenupanier.produit}}</td>
-						<td>{{panier.contenupanier.quantite}}</td>
+						<td>{{contenupanier.id}}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
-	{% else %} #}
+	{% else %}
 		<p>Le panier est vide</p>
-	{# {% endif %} #}
+	{% endif %}
 {% endblock %}

@@ -3,54 +3,144 @@
 {% block title %}Produit index
 {% endblock %}
 
+{% block stylesheets %}
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		.logo img {
+			width: 35px;
+			height: auto;
+		}
+
+		nav {
+			width: 100vw;
+			height: auto;
+			display: flex;
+			justify-content: space-around;
+		}
+
+		nav ul {
+			display: flex;
+			list-style: none;
+		}
+		nav ul li {
+			text-decoration: none;
+			margin: 0 3vw;
+			line-height: 8vh;
+		}
+
+		nav ul li a {
+			color: #0A2472;
+			text-transform: uppercase;
+			font-weight: 700;
+		}
+
+		.new {
+			width: 100%;
+			text-align: right;
+		}
+
+
+		.gallery {
+			margin-top: 2vh;
+			margin-bottom: 10vh;
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			flex-wrap: wrap;
+	
+		}
+
+		h1 {
+			padding-bottom : 30px;
+		}
+
+		.produit {
+			margin-top : 7vh;
+		}
+		.price {
+			font-size: 20px;
+			color: #0A2472;
+			font-weight: 800;
+		}
+
+		.stock {
+			font-size: 12px;
+		}
+
+		.stock, .price {
+			text-align : right;
+			margin: 0;
+			
+		}
+
+		h2 {
+			font-size : 20px;
+			color: #0A2472;
+		}
+
+		.show {
+			padding: 10px 15px;
+			background-color: #0A2472;
+			border: 2px solid #0A2472;
+			color: #00ADB5;
+			text-transform: uppercase;
+		}
+
+		.edit {
+			padding: 10px 15px;
+			border: 2px solid #0A2472;
+			color : #0A2472;
+			text-transform: uppercase;
+		}
+
+		.show:hover, .edit:hover {
+			color: #F8B500;
+			text-decoration: none;
+		}
+
+		.card {
+			width: 20vw;
+		}
+		.card img {
+			width: 100%;
+		}
+	</style>
+
+{% endblock %}
 
 {% block body %}
 	{% if is_granted('ROLE_USER') %}
-		{{dump(app.user)}}
+		{# {{dump(app.user)}} #}
 	{% endif %}
-	<h1>Produit index</h1>
-
-	<table border="1" class="table table-striped table-inverse">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Nom</th>
-				<th>Description</th>
-				<th>Prix</th>
-				<th>Stock</th>
-				<th>Photo</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for produit in produits %}
-				<tr>
-					<td>{{ produit.id }}</td>
-					<td>{{ produit.nom }}</td>
-					<td>{{ produit.description }}</td>
-					<td>{{ produit.prix }}</td>
-					<td>{{ produit.stock }}</td>
-					<td>
-						<div class="card">
-							<img src="{{ asset('uploads/'~produit.photo) }}">
-						</div>
-					</td>
-					<td>
-						<a href="{{ path('produit_show', {'id': produit.id}) }}">show</a>
-						{% if is_granted('ROLE_ADMIN') %}
-							<a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
-						{% endif %}
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="7">Aucun produit, pour l'instant pute tu vas payer :)</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
+	<h1>{{'produit.titre' | trans}}</h1>
 	{% if is_granted('ROLE_ADMIN') %}
-		<a href="{{ path('produit_new') }}">Create new</a>
+		<div class="new">
+			<a class="show" href="{{ path('produit_new') }}">{{'produit.nouveau' | trans}}</a>
+		</div>
 	{% endif %}
-{% endblock %}
+	<div class="gallery">
+		{% for produit in produits %}
+			<div class="produit">
+				<h2>{{produit.nom}}</h2>
+				<div class="card">
+					<img src="{{ asset('uploads/'~produit.photo) }}">
+				</div>
+				<p class="price">{{produit.prix}}€</p>
+				<p class="stock">{{produit.stock}} {{'produit.restants' | trans}} </p>
+				<div class="txt_rights">
+					<a class="show" href="{{ path('produit_show', {'id': produit.id}) }}">{{'produit.voir' | trans}}</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a class="edit" href="{{ path('produit_edit', {'id': produit.id}) }}">{{'produit.editer' | trans}}</a>
+					{% endif %}
+				</div>
+			</div>
+		{% else %}
+			<p>{{'produit.alert' | trans}}</p>
+		{% endfor %}
+	</div>
+	{% endblock %}

@@ -1,0 +1,38 @@
+#FR
+
+menu:
+  produit: 'Nos Produits'
+  panier: 'Mon Panier'
+  inscription : 'Inscription'
+  connecter: 'Se connecter'
+  deconnecter: 'Déconnecter'
+
+#affichage produit
+produit:
+  titre: 'Tous nos produits'
+  nouveau: 'Ajouter un nouveau produit'
+  restants: 'restants'
+  voir: 'Voir'
+  editer : 'Editer'
+  retour_list: 'Retour aux produits'
+  description: 'Description'
+  no_user: 'Vous devez être connecté pour pouvoir acheter sur notre site'
+  connecter: 'Se connecter'
+  produits_restants: 'produits restants'
+  supprimer: 'Supprimer'
+
+
+
+# #form produit
+# form_produit:
+#   action: 'Ajouter un produit'
+
+# #form_panier
+# form_panier:
+#   action: 'Ajouter au panier'
+
+
+# file:
+#   error: "Le fichier n'est pas valide"
+
+

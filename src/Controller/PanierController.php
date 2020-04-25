@@ -16,9 +16,11 @@ class PanierController extends AbstractController
      */
     public function index(PanierRepository $panierRepository): Response
     {
+
         return $this->render('panier/index.html.twig', [
             'panier' => $panierRepository->findAll(),
         ]);
+
     }
 
     /**
@@ -27,15 +29,10 @@ class PanierController extends AbstractController
     public function panierUser(Panier $panier, User $user)
     {
 
-        if($user != null) {
 
-            return $this->render('panier/index.html.twig', [
-                'panier' => $panier,
-            ]);
-        }
-        else {
-            return $this -> redirectToRoute('app_login');
-        }
+        return $this->render('panier/panier.html.twig', [
+            'panier' => $panier,
+        ]);
     }
     
 }

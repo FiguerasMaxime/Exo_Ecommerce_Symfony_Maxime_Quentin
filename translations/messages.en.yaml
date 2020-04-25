@@ -1,0 +1,43 @@
+#EN
+
+
+menu:
+  produits: 'Products'
+  panier: 'Bag'
+
+produit:
+  titre: 'Products list'
+  photo: 'Picture'
+  nom: 'Name'
+  qte: 'Quantity'
+  prix: 'Price'
+  alert: 'There is any products'
+  supp: 'Delete'
+  name: 'product'
+  names: 'products'
+
+#form produit
+form_produit:
+  action: 'Add a product'
+
+#form_panier
+form_panier:
+  action: 'Add to bag'
+
+#FORM
+Nom : "Name"
+Photo : "Picture"
+Qte : "Quantity"
+Prix : "Price"
+
+
+file:
+  error: "The file can't be upload"
+
+panier:
+  titre: 'My bag'
+  nom: 'Name'
+  qte: 'Quantity'
+  montant: 'Results'
+  alert: 'There is any products in the bag'
+  total: 'Results of the bag'

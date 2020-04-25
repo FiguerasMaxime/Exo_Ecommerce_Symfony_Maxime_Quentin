@@ -3,53 +3,150 @@
 {% block title %}Produit
 {% endblock %}
 
-{% block body %}
-	{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
-		{{dump(user)}}
-	{% endif %}
-	<h1>Produit</h1>
+{% block stylesheets %}
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ produit.id }}</td>
-			</tr>
-			<tr>
-				<th>Nom</th>
-				<td>{{ produit.nom }}</td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ produit.description }}</td>
-			</tr>
-			<tr>
-				<th>Prix</th>
-				<td>{{ produit.prix }}</td>
-			</tr>
-			<tr>
-				<th>Stock</th>
-				<td>{{ produit.stock }}</td>
-			</tr>
-			<tr>
-				<th>Photo</th>
-				<td>
-					<img src="{{ asset('uploads/'~produit.photo) }}">
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	
-	{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
-		<a href="{{ path('panier', {'id': panier.id}) }}">Ajouter au panier</a>
-	{% endif %}
+		.logo img {
+			width: 35px;
+			height: auto;
+		}
 
-    {{form(formContenuPanier)}} 
+		nav {
+			width: 100vw;
+			height: auto;
+			display: flex;
+			justify-content: space-around;
+		}
 
-	<a href="{{ path('produit_index') }}">back to list</a>
-	{% if is_granted('ROLE_USER') %}
-		<a href="{{ path('produit_edit', {'id': produit.id}) }}">edit</a>
-		{{ include('produit/_delete_form.html.twig') }}
-	{% endif %}
+		nav ul {
+			display: flex;
+			list-style: none;
+		}
+		nav ul li {
+			text-decoration: none;
+			margin: 0 3vw;
+			line-height: 8vh;
+		}
+
+		nav ul li a {
+			color: #0A2472;
+			text-transform: uppercase;
+			font-weight: 700;
+		}
+
+		.main_container {
+			width: 100%;
+			margin-top: 20px;
+			display: flex;
+		}
+
+		.img,
+		.txt {
+			width: 50%;
+			padding-bottom: 50px;
+		}
+
+		.img img {
+			width: 90%;
+		}
+
+
+		h2 {
+			font-size: 40px;
+			color: #0A2472;
+		}
+
+		h4 {
+			font-size: 10px;
+			margin-top: 50px;
+		}
+		.stock {
+			font-size: 12px;
+			opacity: .6;
+		}
+
+		.pres {
+			display: flex;
+			justify-content: space-between;
+		}
+		.price {
+			margin: 0;
+			font-size: 20px;
+			padding: 6px 15px;
+			border: 2px solid #0A2472;
+			color: #0A2472;
+			font-weight: 800;
+		}
+
+		.red {
+			color: red;
+			font-size: 10px;
+		}
+
+		.descr {
+			margin-bottom : 70px;
+		}
+
+		.show {
+			padding: 10px 15px;
+			background-color: #0A2472;
+			border: 2px solid #0A2472;
+			color: #00ADB5;
+			text-transform: uppercase;
+		}
+
+		.edit {
+			padding: 10px 15px;
+			border: 2px solid #0A2472;
+			color: #0A2472;
+			text-transform: uppercase;
+		}
+
+		.show:hover,
+		.edit:hover {
+			color: #F8B500;
+			text-decoration: none;
+		}
+	</style>
 
 {% endblock %}
+
+{% block body %}
+	{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+		{# {{dump(user)}} #}
+	{% endif %}
+	<a href="{{ path('produit_index') }}">{{'produit.retour_list' | trans}}</a>
+	<div class="main_container">
+		<div class="img">
+			<img src="{{ asset('uploads/'~produit.photo) }}">
+		</div>
+		<div class="txt">
+			<div class="pres">
+				<h2>{{produit.nom}}</h2>
+				<p class="price">{{produit.prix}}€</p>
+			</div>
+			<h4>{{'produit.description' | trans}}</h4>
+			<p class="descr">{{produit.description}}</p>
+
+			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+				{{form(formContenuPanier)}}
+			{% else %}
+				<a class="red">{{'produit.no_user' | trans}}</a>
+				<a class="red" href="{{ path('app_login') }}">{{'produit.connecter' | trans}}</a>
+			{% endif %}
+				<p class="stock">{{produit.stock}}
+					{{'produit.produits_restants' | trans}}</p>
+			</div>
+		</div>
+
+		{% if is_granted('ROLE_USER') %}
+			<a class="edit" href="{{ path('produit_edit', {'id': produit.id}) }}">{{'produit.editer' | trans}}</a>
+			{{ include('produit/_delete_form.html.twig') }}
+		{% endif %}
+
+	{% endblock %}

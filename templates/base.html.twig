@@ -56,18 +56,20 @@
 		<nav>
 			<ul>
                 <li class="logo">
-                    <img src="{{ asset('uploads/ldlc.png') }}">
+					<a href="{{ path('produit_index') }}">
+						<img src="{{ asset('uploads/ldlc.png') }}">
+					</a>
                 </li>
-				<li><a href="{{ path('produit_index') }}">Nos Produits</a></li>
-				<li><a href="{{ path('panier') }}">Mon panier</a></li>
+				<li><a href="{{ path('produit_index') }}">{{'menu.produit' | trans}}</a></li>
+				<li><a href="{{ path('panier') }}">{{'menu.panier' | trans}}</a></li>
 			</ul>
             <ul>
-				<li><a href="{{ path('app_register') }}">Inscription</a></li>
+				<li><a href="{{ path('app_register') }}">{{'menu.inscription' | trans}}</a></li>
 				<li>
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
-                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                        <a href="{{ path('app_logout') }}">{{'menu.deconnecter' | trans}}</a>
                     {% else %}
-                         <a href="{{ path('app_login') }}">Se connecter</a>
+                         <a href="{{ path('app_login') }}">{{'menu.connecter' | trans}}</a>
                     {% endif %}
                 </li>
 			</ul>
