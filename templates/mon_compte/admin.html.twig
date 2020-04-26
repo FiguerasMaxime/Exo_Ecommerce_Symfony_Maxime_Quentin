@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+
+    {{dump(users)}}
+    {{dump(paniers)}}
+    <h2>Paniers non achetés</h2>
+    {% if paniers is not empty %}
+        {% for panier in paniers %}
+            <table border="1" class="table table-striped table-inverse">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Panier n°</th>
+                        <th>Contenu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{panier.utilisateur.prenom}}</td>
+                        <td>{{panier.id}}</td>
+                        <td>
+                            {% for panier in panier.contenuPaniers %}
+                               {{panier.produit.nom}},
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endfor %}
+    {% else %}
+		<p>Il n'y a aucune commande non payé</p>
+	{% endif %}
+
+    <h2>Utilisateurs inscrit</h2>
+    {% if users is not empty %}
+        
+            <table border="1" class="table table-striped table-inverse">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.nom}}</td>
+                        <td>{{user.email}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    {% else %}
+		<p>Il n'y a aucun utilisateur inscrit</p>
+	{% endif %}
+
+{% endblock %}
