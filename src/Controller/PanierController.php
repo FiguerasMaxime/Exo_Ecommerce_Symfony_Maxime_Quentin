@@ -49,7 +49,7 @@ class PanierController extends AbstractController
         else {
             $this->addFlash("danger", "Panier introuvable");
         }
-        return $this -> redirectToRoute('produit_index');
+        return $this -> redirectToRoute('mon_compte');
     }
     
 }

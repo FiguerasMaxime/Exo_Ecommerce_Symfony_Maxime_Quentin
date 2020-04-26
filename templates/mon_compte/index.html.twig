@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MonCompteController!
+{% endblock %}
+
+{% block body %}
+
+	<h2>Commandes Non Payés</h2>
+	{% if panierFalse is not empty %}
+		<table border="1" class="table table-striped table-inverse">
+			<thead>
+				<tr>
+					<th>ID commande</th>
+					<th>Montant</th>
+					<th>Date de la commande</th>
+				</tr>
+			</thead>
+			<tbody>
+                {{dump(panierFalse)}}
+				{# <tr>
+					<td>{{panier.produit.id}}</td>
+					<td>{{(panier.quantite) * (panier.produit.prix)}}€</td>
+					<td>{{panier.date | date('d/m/Y')}}</td>
+				</tr> #}
+			</tbody>
+		</table>
+	{% else %}
+		<p>Vous n'avez aucune commande non payé</p>
+	{% endif %}
+
+	<h2>Commandes Payés</h2>
+	{% if panierTrue is not empty %}
+		<table border="1" class="table table-striped table-inverse">
+			<thead>
+				<tr>
+					<th>ID commande</th>
+					<th>Montant</th>
+					<th>Date de la commande</th>
+				</tr>
+			</thead>
+			<tbody>
+                
+				{% for panier in panierTrue  %}
+					<tr>
+                        {{dump(panier.contenuPaniers)}}
+						{# <td>{{panier.produit.id}}</td>
+						<td>{{(panier.contenuPaniers.quantite) * (panier.contenuPaniers.produit.prix)}}€</td>
+						<td>{{panier.contenuPaniers.date | date('d/m/Y')}}</td> #}
+					</tr>
+				{% endfor %} 
+			</tbody>
+		</table>
+	{% else %}
+		<p>Vous n'avez aucune commande payé</p>
+	{% endif %}
+
+{% endblock %}

@@ -64,7 +64,13 @@
 				<li><a href="{{ path('panier') }}">{{'menu.panier' | trans}}</a></li>
 			</ul>
             <ul>
-				<li><a href="{{ path('app_register') }}">{{'menu.inscription' | trans}}</a></li>
+				<li>
+					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+						<a href="{{path('mon_compte') }}" class="btn btn-success">Mon compte</a>
+                    {% else %}
+						<a href="{{path('app_register') }}">Inscription</a>
+					{% endif %}
+				</li>
 				<li>
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
                         <a href="{{ path('app_logout') }}">{{'menu.deconnecter' | trans}}</a>

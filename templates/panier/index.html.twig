@@ -37,6 +37,7 @@
 		</table>
 		<p>Total: {{total_panier}} €</p>
 		<a href="{{path('status_panier', {'id': panier.id}) }}" class="btn btn-success">Payer</a>
+		<a href="{{path('mon_compte', {'id': panier.id}) }}" class="btn btn-success">Mon compte</a>
 	{% else %}
 		<p>Le panier est vide</p>
 	{% endif %}
