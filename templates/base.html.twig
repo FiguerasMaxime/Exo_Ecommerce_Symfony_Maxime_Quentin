@@ -66,9 +66,9 @@
             <ul>
 				<li>
 					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
-						<a href="{{path('mon_compte') }}" class="btn btn-success">Mon compte</a>
+						<a href="{{path('mon_compte') }}" class="btn btn-success">{{'menu.compte' | trans}}</a>
                     {% else %}
-						<a href="{{path('app_register') }}">Inscription</a>
+						<a href="{{path('app_register') }}">{{'menu.inscription' | trans}}</a>
 					{% endif %}
 				</li>
 				<li>

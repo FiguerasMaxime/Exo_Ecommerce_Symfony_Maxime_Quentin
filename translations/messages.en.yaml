@@ -1,43 +1,49 @@
 #EN
 
-
 menu:
-  produits: 'Products'
-  panier: 'Bag'
+  produit: 'Our Products'
+  panier: 'My Bag'
+  inscription : 'Register'
+  connecter: 'Login'
+  deconnecter: 'Logout'
+  compte: 'My account'
 
+#affichage produit
 produit:
-  titre: 'Products list'
-  photo: 'Picture'
-  nom: 'Name'
-  qte: 'Quantity'
-  prix: 'Price'
-  alert: 'There is any products'
-  supp: 'Delete'
-  name: 'product'
-  names: 'products'
-
-#form produit
-form_produit:
-  action: 'Add a product'
-
-#form_panier
-form_panier:
-  action: 'Add to bag'
-
-#FORM
-Nom : "Name"
-Photo : "Picture"
-Qte : "Quantity"
-Prix : "Price"
-
-
-file:
-  error: "The file can't be upload"
+  titre: 'All our products'
+  nouveau: 'Add a new product'
+  restants: 'remaining'
+  voir: 'See'
+  editer : 'Edit'
+  retour_list: 'Back to list products'
+  description: 'Description'
+  no_user: 'You have to be connected in order to buy products'
+  connecter: 'Login'
+  produits_restants: 'remaining products'
+  supprimer: 'Delete'
 
 panier:
-  titre: 'My bag'
-  nom: 'Name'
-  qte: 'Quantity'
-  montant: 'Results'
-  alert: 'There is any products in the bag'
-  total: 'Results of the bag'
+  erreur: 'Your bag is empty'
+
+compte: 
+  enregistrer: 'Register'
+  deconnecter : 'Déconnecter'
+  
+# connection: 
+#   log: 'Vous êtes connecté en tant que'
+#   deconnecter : 'Déconnecter'
+#   inscrire: 'S'inscrire'
+
+# #form produit
+# form_produit:
+#   action: 'Ajouter un produit'
+
+# #form_panier
+# form_panier:
+#   action: 'Ajouter au panier'
+
+
+# file:
+#   error: "Le fichier n'est pas valide"
+
+

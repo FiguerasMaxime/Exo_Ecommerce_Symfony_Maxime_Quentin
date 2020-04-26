@@ -6,6 +6,7 @@ menu:
   inscription : 'Inscription'
   connecter: 'Se connecter'
   deconnecter: 'Déconnecter'
+  compte: 'Mon compte'
 
 #affichage produit
 produit:
@@ -21,8 +22,12 @@ produit:
   produits_restants: 'produits restants'
   supprimer: 'Supprimer'
 
-
-
+panier:
+  erreur: 'Le panier est vide'
+  
+compte: 
+  enregistrer: "S'enregistrer"
+  deconnecter : 'Déconnecter'
 # #form produit
 # form_produit:
 #   action: 'Ajouter un produit'
