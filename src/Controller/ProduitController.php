@@ -8,6 +8,7 @@ use App\Entity\Produit;
 use App\Entity\User;
 use App\Form\ContenuPanierType;
 use App\Form\ProduitType;
+use App\Repository\PanierRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -76,19 +77,20 @@ class ProduitController extends AbstractController
     /**
      * @Route("/produit/{id}", name="produit_show")
      */
-    public function show(Produit $produit, Request $request, User $user): Response
+    public function show(Produit $produit, Request $request, User $user, $id, PanierRepository $panierRepository): Response
     {
         if($produit != null){
 
             $pdo = $this->getDoctrine()->getManager();
-            $produitClass = $pdo->getRepository(Produit::class)->findByid($produit);
-
-            $contenuPanier = new ContenuPanier($produit);
+            $produitClass = $pdo->getRepository(Produit::class)->find($id);
+            $panier = $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);
+            if($panier === null) {
+                $panier = new Panier();
+                $panier -> setUtilisateur($user);
+            }
+            $contenuPanier = new ContenuPanier();
             $contenuPanier -> setProduit($produitClass);
-
-            $panier = new Panier($user);
-            $panier -> addUtilisateur($user);
-            $panier -> setContenuPanier($contenuPanier);
+            $contenuPanier-> setPanier($panier);
 
             $form = $this->createForm(ContenuPanierType::class, $contenuPanier);
             $form->handleRequest($request);
@@ -101,7 +103,7 @@ class ProduitController extends AbstractController
                 $pdo->flush();
 
                 $this->addFlash("success", "Produit ajouté au panier");
-                return $this -> redirectToRoute('panier_user');
+                return $this -> redirectToRoute('panier');
             }
             return $this -> render('produit/show.html.twig', [
                 'produit' => $produit,

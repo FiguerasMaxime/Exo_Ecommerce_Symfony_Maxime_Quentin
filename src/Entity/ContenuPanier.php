@@ -19,15 +19,6 @@ class ContenuPanier
      */
     private $id;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Produit", inversedBy="contenuPaniers")
-     */
-    private $produit;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Panier", inversedBy="contenuPanier", cascade={"persist", "remove"})
-     */
-    private $panier;
 
     /**
      * @ORM\Column(type="integer")
@@ -39,9 +30,20 @@ class ContenuPanier
      */
     private $date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Panier", inversedBy="contenuPaniers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $panier;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Produit", inversedBy="contenuPaniers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produit;
+
     public function __construct()
     {
-        $this->produit = new ArrayCollection();
         $this->date = new \DateTime('now');
     }
 
@@ -50,49 +52,6 @@ class ContenuPanier
         return $this->id;
     }
 
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduit(): Collection
-    {
-        return $this->produit;
-    }
-
-    public function setProduit($produit) {
-        $this->produit = $produit;
-
-        return $this;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produit->contains($produit)) {
-            $this->produit[] = $produit;
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produit->contains($produit)) {
-            $this->produit->removeElement($produit);
-        }
-
-        return $this;
-    }
-
-    public function getPanier(): ?Panier
-    {
-        return $this->panier;
-    }
-
-    public function setPanier(?Panier $panier): self
-    {
-        $this->panier = $panier;
-
-        return $this;
-    }
 
     public function getQuantite(): ?int
     {
@@ -114,6 +73,30 @@ class ContenuPanier
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getPanier(): ?Panier
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(?Panier $panier): self
+    {
+        $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): self
+    {
+        $this->produit = $produit;
 
         return $this;
     }

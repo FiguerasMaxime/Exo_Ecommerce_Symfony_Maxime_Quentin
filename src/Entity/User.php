@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,9 +48,14 @@ class User implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Panier", inversedBy="utilisateur")
+     * @ORM\OneToMany(targetEntity="App\Entity\Panier", mappedBy="utilisateur", orphanRemoval=true)
      */
-    private $panier;
+    private $paniers;
+
+    public function __construct()
+    {
+        $this->paniers = new ArrayCollection();
+    }
 
 
 
@@ -154,16 +161,36 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPanier(): ?Panier
+    /**
+     * @return Collection|Panier[]
+     */
+    public function getPaniers(): Collection
     {
-        return $this->panier;
+        return $this->paniers;
     }
 
-    public function setPanier(?Panier $panier): self
+    public function addPanier(Panier $panier): self
     {
-        $this->panier = $panier;
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers[] = $panier;
+            $panier->setUtilisateur($this);
+        }
 
         return $this;
     }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->paniers->contains($panier)) {
+            $this->paniers->removeElement($panier);
+            // set the owning side to null (unless already changed)
+            if ($panier->getUtilisateur() === $this) {
+                $panier->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

@@ -16,9 +16,9 @@ class PanierController extends AbstractController
      */
     public function index(PanierRepository $panierRepository): Response
     {
-
+        $panierFind = $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);
         return $this->render('panier/index.html.twig', [
-            'panier' => $panierRepository->findAll(),
+            'panier' => $panierFind,
         ]);
 
     }

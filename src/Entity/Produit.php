@@ -44,7 +44,7 @@ class Produit
     private $photo;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ContenuPanier", mappedBy="produit")
+     * @ORM\OneToMany(targetEntity="App\Entity\ContenuPanier", mappedBy="produit", orphanRemoval=true)
      */
     private $contenuPaniers;
 
@@ -52,6 +52,8 @@ class Produit
     {
         $this->contenuPaniers = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -130,7 +132,7 @@ class Produit
     {
         if (!$this->contenuPaniers->contains($contenuPanier)) {
             $this->contenuPaniers[] = $contenuPanier;
-            $contenuPanier->addProduit($this);
+            $contenuPanier->setProduit($this);
         }
 
         return $this;
@@ -140,9 +142,13 @@ class Produit
     {
         if ($this->contenuPaniers->contains($contenuPanier)) {
             $this->contenuPaniers->removeElement($contenuPanier);
-            $contenuPanier->removeProduit($this);
+            // set the owning side to null (unless already changed)
+            if ($contenuPanier->getProduit() === $this) {
+                $contenuPanier->setProduit(null);
+            }
         }
 
         return $this;
     }
+
 }

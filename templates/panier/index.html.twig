@@ -5,9 +5,8 @@
 
 {% block body %}
 	{% if is_granted('ROLE_USER') %}
-		{{dump(app.user.panier)}}
+		{{dump(panier)}}
 	{% endif %}
-    {{dump(panier)}}
     
 	{% if panier is not empty%}
 		<table border="1" class="table table-striped table-inverse">

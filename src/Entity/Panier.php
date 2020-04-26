@@ -28,20 +28,23 @@ class Panier
      */
     private $etat = false;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\ContenuPanier", mappedBy="panier", cascade={"persist", "remove"})
-     */
-    private $contenuPanier;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="panier")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="paniers")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateur;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ContenuPanier", mappedBy="panier", orphanRemoval=true)
+     */
+    private $contenuPaniers;
+
+
     public function __construct()
     {
-        $this->utilisateur = new ArrayCollection();
         $this->date = new \DateTime('now');
+        $this->contenuPaniers = new ArrayCollection();
     }
 
 
@@ -75,59 +78,48 @@ class Panier
         return $this;
     }
 
-    public function getContenuPanier(): ?ContenuPanier
+
+    public function getUtilisateur(): ?User
     {
-        return $this->contenuPanier;
+        return $this->utilisateur;
     }
 
-    // public function setIDPanier(int $contenuPanier): self {
-    //     $this->contenuPanier = $contenuPanier;
-
-    //     return $this;
-    // }
-    public function setContenuPanier(?ContenuPanier $contenuPanier): self
+    public function setUtilisateur(?User $utilisateur): self
     {
-        $this->contenuPanier = $contenuPanier;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newPanier = null === $contenuPanier ? null : $this;
-        if ($contenuPanier->getPanier() !== $newPanier) {
-            $contenuPanier->setPanier($newPanier);
-        }
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|ContenuPanier[]
      */
-    public function getUtilisateur(): Collection
+    public function getContenuPaniers(): Collection
     {
-        return $this->utilisateur;
+        return $this->contenuPaniers;
     }
 
-    public function addUtilisateur(User $utilisateur): self
+    public function addContenuPanier(ContenuPanier $contenuPanier): self
     {
-        if (!$this->utilisateur->contains($utilisateur)) {
-            $this->utilisateur[] = $utilisateur;
-            $utilisateur->setPanier($this);
+        if (!$this->contenuPaniers->contains($contenuPanier)) {
+            $this->contenuPaniers[] = $contenuPanier;
+            $contenuPanier->setPanier($this);
         }
 
         return $this;
     }
 
-    public function removeUtilisateur(User $utilisateur): self
+    public function removeContenuPanier(ContenuPanier $contenuPanier): self
     {
-        if ($this->utilisateur->contains($utilisateur)) {
-            $this->utilisateur->removeElement($utilisateur);
+        if ($this->contenuPaniers->contains($contenuPanier)) {
+            $this->contenuPaniers->removeElement($contenuPanier);
             // set the owning side to null (unless already changed)
-            if ($utilisateur->getPanier() === $this) {
-                $utilisateur->setPanier(null);
+            if ($contenuPanier->getPanier() === $this) {
+                $contenuPanier->setPanier(null);
             }
         }
 
         return $this;
     }
-
 
 }
