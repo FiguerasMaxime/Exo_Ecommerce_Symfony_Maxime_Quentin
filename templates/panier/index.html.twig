@@ -4,9 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{% if is_granted('ROLE_USER') %}
-		{{dump(panier)}}
-	{% endif %}
     
 	{% if panier is not empty%}
 		<table border="1" class="table table-striped table-inverse">
@@ -14,17 +11,35 @@
 				<tr>
 					<th>Nom du produit</th>
 					<th>Quantité</th>
+					<th>Prix</th>
+					<th>Montant</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for contenupanier in panier %}
+				{% set prix_produit = 0 %}
+				{% set total_panier = 0 %}
+
+				{% for produit in panier.contenuPaniers %}
+					{% set prix_produit = produit.produit.prix * produit.quantite %}
+					{% set total_panier = total_panier + prix_produit %}
 					<tr>
-						<td>{{contenupanier.id}}</td>
+						<td>{{produit.produit.nom}}</td> 
+						<td>{{produit.quantite}}</td> 
+						<td>{{produit.produit.prix}}€</td> 
+						<td>{{(produit.quantite) * (produit.produit.prix)}}€</td> 
+						<td>
+							<a href="{{path('delete_panier', {'id': produit.id}) }}" class="btn btn-danger">Supprimer</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
+		<p>Total: {{total_panier}} €</p>
+		<a href="{{path('status_panier', {'id': panier.id}) }}" class="btn btn-success">Payer</a>
 	{% else %}
 		<p>Le panier est vide</p>
 	{% endif %}
+
+
 {% endblock %}

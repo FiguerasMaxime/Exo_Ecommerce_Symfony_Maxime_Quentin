@@ -100,4 +100,5 @@ class ContenuPanier
 
         return $this;
     }
+
 }

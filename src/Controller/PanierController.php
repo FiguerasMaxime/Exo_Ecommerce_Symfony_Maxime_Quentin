@@ -20,7 +20,6 @@ class PanierController extends AbstractController
         return $this->render('panier/index.html.twig', [
             'panier' => $panierFind,
         ]);
-
     }
 
     /**
@@ -28,11 +27,29 @@ class PanierController extends AbstractController
      */
     public function panierUser(Panier $panier, User $user)
     {
-
-
         return $this->render('panier/panier.html.twig', [
             'panier' => $panier,
         ]);
+    }
+
+    /**
+     * @Route ("panier/buy/{id}", name="status_panier")
+     */
+    public function buy(Panier $panier, PanierRepository $panierRepository){
+        if($panier!=null){
+            
+            $panier= $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);
+            $panier -> setEtat(true);
+            $pdo = $this-> getDoctrine()->getManager();
+            $pdo -> persist($panier);
+            $pdo -> flush();
+
+            $this->addFlash("success", "Panier payé");
+        }
+        else {
+            $this->addFlash("danger", "Panier introuvable");
+        }
+        return $this -> redirectToRoute('produit_index');
     }
     
 }
