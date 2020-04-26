@@ -37,33 +37,33 @@ class ProduitController extends AbstractController
     public function new(Request $request): Response
     {
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $produit = new Produit();
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
+        $entityManager = $this->getDoctrine()->getManager(); //Récupératio doctrine pour intéragir avec la bdd
+        $produit = new Produit(); // création d'un objet produit 
+        $form = $this->createForm(ProduitType::class, $produit); // création d'un form de type ProduitType par le produit
+        $form->handleRequest($request); // vérification d'une requête (action) effectué sur le form
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { // vérification si le form est envoyé et valide
 
-            $fichier = $form->get('photo')->getData();
+            $fichier = $form->get('photo')->getData(); 
 
             if($fichier){
-                $nomFichier = uniqid() .'.'. $fichier->guessExtension();
+                $nomFichier = uniqid() .'.'. $fichier->guessExtension(); // création d'un id unique à chaque image 
 
                 try {
-                    $fichier->move(
+                    $fichier->move( //envoie de l'image dans le fichier uploads
                         $this->getParameter('upload_dir'),
                         $nomFichier
                     );
                 }
-                catch(FileException $e) {
+                catch(FileException $e) { // si l'image n'est pas bonne, taille d'images, etc...
                     $this->addFlash("danger", "Votre image n'est pas bonne");
-                    return $this->redirectToRoute('produit_index');
+                    return $this->redirectToRoute('produit_index'); // redirection à la page d'accueil
                 }
 
-                $produit->setPhoto($nomFichier);
+                $produit->setPhoto($nomFichier); // insertion du nom de l'image dans le produit
             }
-            $entityManager->persist($produit);
-            $entityManager->flush();
+            $entityManager->persist($produit); // envoie du produit 
+            $entityManager->flush(); 
 
             return $this->redirectToRoute('produit_index');
         }
@@ -82,15 +82,15 @@ class ProduitController extends AbstractController
         if($produit != null){
 
             $pdo = $this->getDoctrine()->getManager();
-            $produitClass = $pdo->getRepository(Produit::class)->find($id);
-            $panier = $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);
+            $produitClass = $pdo->getRepository(Produit::class)->find($id); // récupération des produit par leur id 
+            $panier = $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]); // récupération du panier de l'uilisateur connecté si son panier est false
             if($panier === null) {
-                $panier = new Panier();
-                $panier -> setUtilisateur($user);
+                $panier = new Panier(); // création d'un panier 
+                $panier -> setUtilisateur($user); //attribution à l'utilisateur connecté
             }
             $contenuPanier = new ContenuPanier();
-            $contenuPanier -> setProduit($produitClass);
-            $contenuPanier-> setPanier($panier);
+            $contenuPanier -> setProduit($produitClass); // attribution des produits dans le contenu de panier
+            $contenuPanier-> setPanier($panier); // attribution dans le panier du contenu panier
 
             $form = $this->createForm(ContenuPanierType::class, $contenuPanier);
             $form->handleRequest($request);
@@ -102,13 +102,13 @@ class ProduitController extends AbstractController
     
                 $pdo->flush();
 
-                $this->addFlash("success", "Produit ajouté au panier");
+                $this->addFlash("success", "Produit ajouté au panier"); // affichage message réussi
                 return $this -> redirectToRoute('panier');
             }
             return $this -> render('produit/show.html.twig', [
                 'produit' => $produit,
                 'formContenuPanier' => $form->createView(),
-                'user' => $user->getId(),
+                'user' => $user->getId(), // récupération de l'id dans user 
                 'panier' => $panier
             ]);
         }

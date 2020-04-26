@@ -21,14 +21,22 @@ produit:
   connecter: 'Login'
   produits_restants: 'remaining products'
   supprimer: 'Delete'
-
+  
 panier:
   erreur: 'Your bag is empty'
+  nom_produit: 'Product Name'
+  quantite: 'Quantity'
+  prix: 'Price'
+  montant: 'Amount'
+  payer: 'Buy'
 
 compte: 
-  enregistrer: 'Register'
-  deconnecter : 'Déconnecter'
-  
+  enregistrer: "Register"
+  connecter: "You are logged as"
+  deconnecter : 'Disconnect'
+  mdp: 'Password'
+  soumettre: 'Login'
+
 # connection: 
 #   log: 'Vous êtes connecté en tant que'
 #   deconnecter : 'Déconnecter'

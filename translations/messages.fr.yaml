@@ -21,14 +21,32 @@ produit:
   connecter: 'Se connecter'
   produits_restants: 'produits restants'
   supprimer: 'Supprimer'
+  creer: 'Créer un nouveau produit'
+  retour: 'Retour aux produits'
+  edit: 'Editer le produit'
 
 panier:
   erreur: 'Le panier est vide'
-  
+  nom_produit: 'Nom du produit'
+  quantite: 'Quantité'
+  prix: 'Prix'
+  montant: 'Montant'
+  payer: 'Payer'
+
 compte: 
   enregistrer: "S'enregistrer"
+  connecter: "Vous êtes connecté en tant que"
   deconnecter : 'Déconnecter'
-# #form produit
+  mdp: 'Mot de passe'
+  soumettre: 'Se connecter'
+
+commande:
+  vrai: 'Commandes Payés'
+  date: 'Date de la commande'
+  faux: 'Commandes Non Payés'
+  identite: 'ID commande'
+  erreur: "Vous n'avez aucune commande"
+  
 # form_produit:
 #   action: 'Ajouter un produit'
 

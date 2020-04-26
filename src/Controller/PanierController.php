@@ -16,7 +16,7 @@ class PanierController extends AbstractController
      */
     public function index(PanierRepository $panierRepository): Response
     {
-        $panierFind = $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);
+        $panierFind = $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]); // récupération du panier de l'uilisateur connecté si son panier est false
         return $this->render('panier/index.html.twig', [
             'panier' => $panierFind,
         ]);
@@ -38,18 +38,18 @@ class PanierController extends AbstractController
     public function buy(Panier $panier, PanierRepository $panierRepository){
         if($panier!=null){
             
-            $panier= $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);
-            $panier -> setEtat(true);
+            $panier= $panierRepository-> findOneBy(['utilisateur'=> $this -> getUser(), 'etat'=> false]);// récupération du panier de l'uilisateur connecté si son panier est false
+            $panier -> setEtat(true); // on définit l'état du panier à true pour faire changer son état 
             $pdo = $this-> getDoctrine()->getManager();
-            $pdo -> persist($panier);
-            $pdo -> flush();
+            $pdo -> persist($panier); // on l'envoie la data du panier dans la bdd
+            $pdo -> flush(); 
 
             $this->addFlash("success", "Panier payé");
         }
         else {
             $this->addFlash("danger", "Panier introuvable");
         }
-        return $this -> redirectToRoute('mon_compte');
+        return $this -> redirectToRoute('mon_compte'); // redirection sur la page du compte
     }
     
 }
